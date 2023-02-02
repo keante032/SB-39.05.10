@@ -40,3 +40,25 @@ it("works when you click on the left arrow", function() {
   expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument();
   expect(queryByAltText("Photo by Pratik Patel on Unsplash")).not.toBeInTheDocument();
 });
+
+it("hides and shows arrows appropriately", function() {
+  const { getByTestId } = render(<Carousel />);
+  const leftArrow = getByTestId("left-arrow");
+  const rightArrow = getByTestId("right-arrow");
+
+  // expect the left arrow to be missing, but the right button to be present.
+  expect(leftArrow).toHaveClass("hidden");
+  expect(rightArrow).not.toHaveClass("hidden");
+
+  // move forward, expect both arrow to exist
+  fireEvent.click(getByTestId("right-arrow"));
+ // expect the left arrow to be missing, but the right button to be present.
+ expect(leftArrow).not.toHaveClass("hidden");
+ expect(rightArrow).not.toHaveClass("hidden");
+
+  // move forward again, expect only the right arrow to be missing
+  fireEvent.click(rightArrow);
+ expect(leftArrow).not.toHaveClass("hidden");
+ expect(rightArrow).toHaveClass("hidden");
+
+});
